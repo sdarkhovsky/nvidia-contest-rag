@@ -206,4 +206,8 @@ qa = ConversationalRetrievalChain.from_llm(
 
 # Now try asking a question about Triton with the simpler chain. Compare the answer to the result
 # with previous complex chain model
+
+query = "What is Triton?"
+result = qa({"question": query})
+print(result.get("answer"))
     
