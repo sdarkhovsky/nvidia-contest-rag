@@ -19,6 +19,8 @@ from typing import List, Union
 import requests
 from bs4 import BeautifulSoup
 
+import datetime
+
 EMBEDDING_MODEL = "NV-Embed-QA"       # "ai-embed-qa-4" is deprecated
 
 
@@ -71,7 +73,9 @@ def html_document_loader(url: Union[str, bytes]) -> str:
 def create_embeddings(embedding_path: str = "./embed"):
 
     embedding_path = "./embed"
-    print(f"Storing embeddings to {embedding_path}")
+    now = datetime.datetime.now()
+
+    print(f"{now}: Storing embeddings to {embedding_path}")
 
     # List of web pages containing NVIDIA Triton technical documentation
     urls = [
@@ -95,7 +99,10 @@ def create_embeddings(embedding_path: str = "./embed"):
     )
     texts = text_splitter.create_documents(documents)
     index_docs(url, text_splitter, texts, embedding_path)
-    print("Generated embedding successfully")
+
+    now = datetime.datetime.now()
+
+    print(f"{now}: Generated embedding successfully")
 
 # Generate embeddings using NVIDIA AI Endpoints for LangChain and save embeddings to offline vector store
 # in the /embed directory for future re-use
@@ -186,8 +193,9 @@ qa = ConversationalRetrievalChain(
 # the system remembers previous queries
 query = "What is Triton?"
 result = qa({"question": query})
-print(result.get("answer"))
-
+now = datetime.datetime.now()
+answer = result.get("answer")
+print(f"{now}: {answer}")
 
 # Now we demonstrate a simpler chain using a single LLM only, a chat LLM
 llm = ChatNVIDIA(model="meta/llama3-70b-instruct", temperature=0.1, max_tokens=1000, top_p=1.0)
@@ -209,5 +217,6 @@ qa = ConversationalRetrievalChain.from_llm(
 
 query = "What is Triton?"
 result = qa({"question": query})
-print(result.get("answer"))
-    
+now = datetime.datetime.now()
+answer = result.get("answer")
+print(f"{now}: {answer}")

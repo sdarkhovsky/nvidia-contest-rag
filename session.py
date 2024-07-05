@@ -4,13 +4,14 @@ from rag_langchain_nvidia_api import create_embeddings, create_chat_summarizatio
 
 
 def ask_questions(qa):
+    print("\nEnter a question (q to quit):")
     for line in sys.stdin:
-        print("Enter a question (q to quit):")
         if 'q' == line.rstrip():
             break
-        query = "What is Triton?"
+        query = line
         result = qa({"question": query})
         print(result.get("answer"))
+        print("\nEnter a question (q to quit):")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--task", default="chat", help="chat, embed, chat_summarize")

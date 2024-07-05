@@ -182,6 +182,8 @@ def create_chat_qa():
     # Now we demonstrate a simpler chain using a single LLM only, a chat LLM
     llm = ChatNVIDIA(model="meta/llama3-70b-instruct", temperature=0.1, max_tokens=1000, top_p=1.0)
 
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+
     qa_prompt=QA_PROMPT
 
     doc_chain = load_qa_chain(llm, chain_type="stuff", prompt=QA_PROMPT)
